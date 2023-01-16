@@ -5,21 +5,31 @@ import { Title } from './ContactForm.styled';
 import { InputName } from './ContactForm.styled';
 import { InputNumber } from './ContactForm.styled';
 import { BtnSubmit } from './ContactForm.styled';
+import { addContacts } from 'redux/contactSlice';
+import { useDispatch } from 'react-redux';
+import { nanoid } from 'nanoid';
+import { useSelector } from 'react-redux';
 
-export const ContactForm = ({ onFormSubmit }) => {
-  const [userData, setUserData] = useState({});
-
-  const inputChange = event => {
-    setUserData(prevState => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
+export const ContactForm = () => {
+  const contacts = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.dir(event.target);
-    onFormSubmit(userData);
+    const name = event.target.elements.name.value;
+    const number = event.target.elements.number.value;
+    const isAtList = contacts.find(contact => contact.name === name);
+    if (isAtList) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+    const contact = {
+      name,
+      number,
+      id: nanoid(),
+    };
+    const action = addContacts(contact);
+    dispatch(action);
     event.target.reset();
   };
 
@@ -32,7 +42,6 @@ export const ContactForm = ({ onFormSubmit }) => {
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
-        onChange={inputChange}
       />
       <h3>Number</h3>
       <InputNumber
@@ -41,13 +50,8 @@ export const ContactForm = ({ onFormSubmit }) => {
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required
-        onChange={inputChange}
       />
       <BtnSubmit type="submit">Add contacts</BtnSubmit>
     </Form>
   );
-};
-
-ContactForm.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired,
 };

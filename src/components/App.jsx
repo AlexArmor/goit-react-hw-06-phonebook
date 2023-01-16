@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
-import { nanoid } from 'nanoid';
 import { Filter } from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
 import { Section } from './App.styled';
@@ -11,22 +10,22 @@ export const App = () => {
     () => JSON.parse(localStorage.getItem('contacts')) || []
   );
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   localStorage.setItem('contacts', JSON.stringify(contacts));
+  // }, [contacts]);
 
-  const onFormSubmit = text => {
-    const isAtList = contacts.find(contact => contact.name === text.name);
-    if (isAtList) {
-      alert(`${text.name} is already in contacts`);
-      return;
-    }
-    const contact = {
-      ...text,
-      id: nanoid(),
-    };
-    setContacts(prevState => [...prevState, contact]);
-  };
+  // const onFormSubmit = text => {
+  //   const isAtList = contacts.find(contact => contact.name === text.name);
+  //   if (isAtList) {
+  //     alert(`${text.name} is already in contacts`);
+  //     return;
+  //   }
+  //   const contact = {
+  //     ...text,
+  //     id: nanoid(),
+  //   };
+  //   setContacts(prevState => [...prevState, contact]);
+  // };
 
   const filterContacts = () => {
     return contacts.filter(contact =>
@@ -46,7 +45,7 @@ export const App = () => {
   return (
     <Section>
       <h1>Phone book</h1>
-      <ContactForm onFormSubmit={onFormSubmit} />
+      <ContactForm />
       <h2>Contacts</h2>
       <Filter onInputChange={onInputChange} />
       <ContactList data={filteredContacts} deleteContact={deleteContact} />
