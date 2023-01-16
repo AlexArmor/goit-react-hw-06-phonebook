@@ -18,6 +18,7 @@ export const ContactForm = ({ onFormSubmit }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
+    console.dir(event.target);
     onFormSubmit(userData);
     event.target.reset();
   };
