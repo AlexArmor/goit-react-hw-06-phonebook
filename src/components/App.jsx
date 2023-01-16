@@ -5,7 +5,6 @@ import { ContactList } from './ContactList/ContactList';
 import { Section } from './App.styled';
 
 export const App = () => {
-  const [filter, setFilter] = useState('');
   const [contacts, setContacts] = useState(
     () => JSON.parse(localStorage.getItem('contacts')) || []
   );
