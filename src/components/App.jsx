@@ -14,41 +14,13 @@ export const App = () => {
   //   localStorage.setItem('contacts', JSON.stringify(contacts));
   // }, [contacts]);
 
-  // const onFormSubmit = text => {
-  //   const isAtList = contacts.find(contact => contact.name === text.name);
-  //   if (isAtList) {
-  //     alert(`${text.name} is already in contacts`);
-  //     return;
-  //   }
-  //   const contact = {
-  //     ...text,
-  //     id: nanoid(),
-  //   };
-  //   setContacts(prevState => [...prevState, contact]);
-  // };
-
-  const filterContacts = () => {
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase().trim())
-    );
-  };
-
-  const onInputChange = filter => {
-    setFilter(filter);
-  };
-
-  const deleteContact = id => {
-    setContacts(prevState => prevState.filter(contact => contact.id !== id));
-  };
-
-  const filteredContacts = filterContacts();
   return (
     <Section>
       <h1>Phone book</h1>
       <ContactForm />
       <h2>Contacts</h2>
-      <Filter onInputChange={onInputChange} />
-      <ContactList data={filteredContacts} deleteContact={deleteContact} />
+      <Filter />
+      <ContactList />
     </Section>
   );
 };
